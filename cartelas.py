@@ -13,7 +13,7 @@ def selectionsort(lista):  # criando o metodo de ordenacao selectionsort
     return lista
 
 
-ncartelas = int(input())  # quantidade de cartelas a serem geradas
+ncartelas = int(input('Digite o número de cartelas desejadas: '))  # quantidade de cartelas a serem geradas
 matrizcartela = []  # lista de todas cartelas
 for x in range(ncartelas):  # definindo o numero de cartelas a serem geradas
     cartela = []  # numeros da cartela
