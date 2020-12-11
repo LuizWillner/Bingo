@@ -6,7 +6,7 @@ def selectionsort(lista):  # criando o metodo de ordenacao selectionsort
     while i < len(lista) - 1:
         j = i + 1
         while j < len(lista):
-            if lista[i] > lista[j]:
+            if lista[i] < lista[j]:
                 lista[i], lista[j] = lista[j], lista[i]
             j += 1
         i += 1
@@ -22,7 +22,7 @@ for i in range(len(lista_cartelas)):  # da pra substituir depois pelo numero de 
     matriz_cartelas[i] = [0]  # transformando o arquivo das cartelas em uma matriz de inteiros
     matriz_cartelas[i].append(list(map(int, lista_cartelas[i].split())))
 
-print('======================'*10)
+print('======================='*10)
 print(lista_cartelas)
 print(matriz_cartelas)
 print('======================='*10)
@@ -47,7 +47,8 @@ while not checa_vencedor:
             if cartela[0] == 10:
                 checa_vencedor = True  # talvez seja interessante adicionar as cartelas vencedoras numa lista para depois printar quem ganhou
             elif cartela[0] == 9:
-                print('A cartela {} está próxima da vitória!'.format(matriz_cartelas.index(cartela)))  # pode ser melhorado
+                id_cartela = matriz_cartelas.index(cartela) + 1
+                print('A cartela {} está próxima da vitória!'.format(id_cartela))  # pode ser melhorado
 
     globo.pop(index)
     maximo -= 1
