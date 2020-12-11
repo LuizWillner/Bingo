@@ -13,8 +13,9 @@ def selectionsort(lista):  # criando o metodo de ordenacao selectionsort
     return lista
 
 
-todas_cartelas = open('cartelas_doc.txt', 'r')
-lista_cartelas = todas_cartelas.readlines()
+with open('cartelas_doc.txt', 'r') as todas_cartelas:  # todas_cartelas = open('cartelas_doc.txt', 'r')
+    lista_cartelas = todas_cartelas.readlines()
+
 matriz_cartelas = [[]] * len(lista_cartelas)  # da pra substituir depois pelo numero de cartelas de entrada pelo user
 
 for i in range(len(lista_cartelas)):  # da pra substituir depois pelo numero de cartelas de entrada pelo user
