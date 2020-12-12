@@ -13,7 +13,7 @@ def selectionsort(lista):  # criando o metodo de ordenacao selectionsort
     return lista
 
 
-cores = {'limpar': '\033[m', 'azul': '\033[0;34m', 'azul_claro': '\033[0;36m', 'vermelho': '\033[1;31m', 'verde': '\033[0;32m', 'amarelo': '\033[1;33m', 'roxo': '\033[1;35m'}
+cores = {'limpar': '\033[m', 'azul': '\033[1;34m', 'azul_claro': '\033[1;36m', 'vermelho': '\033[1;31m', 'verde': '\033[0;32m', 'amarelo': '\033[1;33m', 'roxo': '\033[1;35m'}
 
 with open('cartelas.txt', 'r') as todas_cartelas:  # todas_cartelas = open('cartelas_doc.txt', 'r')
     lista_cartelas = todas_cartelas.readlines()
@@ -27,6 +27,7 @@ for p in range(len(lista_cartelas)):  # da pra substituir depois pelo numero de 
 globo = list(range(100))  # criando lista com as 1oo "bolinhas" do bingo (de 0 a 99)
 print(matriz_cartelas, '\n')
 
+rodada = 0
 maximo = 99
 todos_os_sorteados = []
 checa_vencedor = False
@@ -35,10 +36,11 @@ quant_vencedores = 0
 
 while not checa_vencedor:
     index = randint(0, maximo)
-    # print('Index sorteado:', index)
     todos_os_sorteados.append(globo[index])
-    print('Número sorteado da rodada: {}{}{}'.format(cores['roxo'], globo[index], cores['limpar']))
-    print('Sorteados até agora:', end=' ')  # modificar para não printar como lista
+    rodada += 1
+    print('{pre_estilo}{cor}{txt}{limpar_cor}{pos_estilo}'.format(pre_estilo='='*64, cor=cores['amarelo'], txt=' {RODADA ' + str(rodada) + '} ', limpar_cor=cores['limpar'], pos_estilo='='*304))
+    print('Número sorteado: {}{}{}'.format(cores['roxo'], globo[index], cores['limpar']))
+    print('Sorteados até agora:', end=' ')
     print(*todos_os_sorteados[0:-1], cores['roxo'] + str(globo[index]) + cores['limpar'], sep=', ')
 
     for cartela in matriz_cartelas:
@@ -54,11 +56,19 @@ while not checa_vencedor:
     globo.pop(index)
     maximo -= 1
 
-    classific_cartelas = selectionsort(matriz_cartelas)  # achar um jeito de chamar função do outro arquivo .py
-    print('Classificação atual:', classific_cartelas)  # modificar para não printar como lista
+    tabela_classific = selectionsort(matriz_cartelas)  # achar um jeito de chamar função do outro arquivo .py
+    print('Classificação atual:')  # modificar para não printar como lista
+    pos = 1
+    for cartela_clas in tabela_classific:
+        pos_str = cores['amarelo'] + str(pos) + ')' + cores['limpar']
+        pontuacao_cartela = cores['azul'] + str(cartela_clas[0]) + 'pts' + cores['limpar']
+        id_cartela = 'Cartela{' + str(cartela_clas[1]) + '}:'
+        print('{}   {}  {} {}'.format(pos_str, pontuacao_cartela, id_cartela, cartela_clas[2]))
+        pos += 1
+
     print()
 
-print('{cor}{pre_estilo}{txt}{pos_estilo}{limpar_cor}'.format(cor=cores['azul_claro'], pre_estilo='='*60, txt=' {RESULTADOS FINAIS} ', pos_estilo='='*len(todos_os_sorteados)*4, limpar_cor=cores['limpar']))
+print('{cor}{pre_estilo}{txt}{pos_estilo}{limpar_cor}'.format(cor=cores['azul_claro'], pre_estilo='='*60, txt=' {RESULTADOS FINAIS} ', pos_estilo='='*300, limpar_cor=cores['limpar']))
 print('Quantidade de números sorteados ao todo: {}{}{}'.format(cores['amarelo'], len(todos_os_sorteados), cores['limpar']))
 print('Todos os números sorteados na partida:{cor}'.format(cor=cores['roxo']), end=' ')
 print(*todos_os_sorteados, sep=', ')
