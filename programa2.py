@@ -13,14 +13,16 @@ def selectionsort(lista):  # criando o metodo de ordenacao selectionsort
     return lista
 
 
-with open('cartelas_doc.txt', 'r') as todas_cartelas:  # todas_cartelas = open('cartelas_doc.txt', 'r')
+cores = {'limpar': '\033[m', 'azul': '\033[0;34m', 'azul_claro': '\033[0;36m', 'vermelho': '\033[1;31m', 'verde': '\033[0;32m', 'amarelo': '\033[0;33m'}
+
+with open('cartelas.txt', 'r') as todas_cartelas:  # todas_cartelas = open('cartelas_doc.txt', 'r')
     lista_cartelas = todas_cartelas.readlines()
 
 matriz_cartelas = [[]] * len(lista_cartelas)  # da pra substituir depois pelo numero de cartelas de entrada pelo user
 
-for i in range(len(lista_cartelas)):  # da pra substituir depois pelo numero de cartelas de entrada pelo user
-    matriz_cartelas[i] = [0]  # transformando o arquivo das cartelas em uma matriz de inteiros
-    matriz_cartelas[i].append(list(map(int, lista_cartelas[i].split())))
+for p in range(len(lista_cartelas)):  # da pra substituir depois pelo numero de cartelas de entrada pelo user
+    matriz_cartelas[p] = [0]  # transformando o arquivo das cartelas em uma matriz de inteiros
+    matriz_cartelas[p].append(list(map(int, lista_cartelas[p].split())))
 
 print('======================='*10)
 print(lista_cartelas)
@@ -48,7 +50,7 @@ while not checa_vencedor:
                 checa_vencedor = True  # talvez seja interessante adicionar as cartelas vencedoras numa lista para depois printar quem ganhou
             elif cartela[0] == 9:
                 id_cartela = matriz_cartelas.index(cartela) + 1
-                print('A cartela {} está próxima da vitória!'.format(id_cartela))  # pode ser melhorado
+                print('{}A cartela {} está próxima da vitória!{}'.format(cores['vermelho'], id_cartela, cores['limpar']))  # pode ser melhorado
 
     globo.pop(index)
     maximo -= 1
@@ -62,10 +64,14 @@ print('Todos os números sorteados na partida:', todos_os_sorteados)  # modifica
 
 quant_vencedores = 0
 vencedores = []
-for i in range(len(classific_cartelas)):  # da pra substituir depois pelo numero de cartelas de entrada pelo user
-    if classific_cartelas[i][0] == 10:
+for p in range(len(classific_cartelas)):  # da pra substituir depois pelo numero de cartelas de entrada pelo user
+    if classific_cartelas[p][0] == 10:
         quant_vencedores += 1
-        vencedores.append(classific_cartelas[i][1])
+        vencedores.append(classific_cartelas[p][1])
 
-print('Houve {} vencedores'.format(quant_vencedores))
-print(vencedores)  # modificar para não printar como lista'''
+if quant_vencedores > 1:
+    print('{}Houve {} vencedores{}'.format(cores['verde'], quant_vencedores, cores['limpar']))
+else:
+    print('{}Houve {} vencedor{}'.format(cores['verde'], quant_vencedores, cores['limpar']))
+
+print('{}{}{}'.format(cores['verde'], vencedores, cores['limpar']))  # modificar para não printar como lista
