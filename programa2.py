@@ -18,14 +18,14 @@ cores = {'limpar': '\033[m', 'azul': '\033[1;34m', 'azul_claro': '\033[1;36m', '
 with open('cartelas.txt', 'r') as todas_cartelas:  # todas_cartelas = open('cartelas_doc.txt', 'r')
     lista_cartelas = todas_cartelas.readlines()
 
-matriz_cartelas = [[]] * len(lista_cartelas)  # da pra substituir depois pelo numero de cartelas de entrada pelo user
+tam_lista_cartelas = len(lista_cartelas)
+matriz_cartelas = [[]] * tam_lista_cartelas # da pra substituir depois pelo numero de cartelas de entrada pelo user
 
-for p in range(len(lista_cartelas)):  # da pra substituir depois pelo numero de cartelas de entrada pelo user
+for p in range(tam_lista_cartelas):
     matriz_cartelas[p] = [0, p + 1]  # transformando o arquivo das cartelas em uma matriz de inteiros
     matriz_cartelas[p].append(list(map(int, lista_cartelas[p].split())))
 
-globo = list(range(100))  # criando lista com as 1oo "bolinhas" do bingo (de 0 a 99)
-print(matriz_cartelas, '\n')
+globo = list(range(100))  # criando lista com as "bolinhas" do bingo (de 0 a 99)
 
 rodada = 0
 maximo = 99
@@ -39,7 +39,7 @@ while not checa_vencedor:
     todos_os_sorteados.append(globo[index])
     rodada += 1
     print('{pre_estilo}{cor}{txt}{limpar_cor}{pos_estilo}'.format(pre_estilo='='*64, cor=cores['amarelo'], txt=' {RODADA ' + str(rodada) + '} ', limpar_cor=cores['limpar'], pos_estilo='='*304))
-    print('Número sorteado: {}{}{}'.format(cores['roxo'], globo[index], cores['limpar']))
+    print('Número sorteado: {cor}{num}{limpar_cor}'.format(cor=cores['roxo'], num=globo[index], limpar_cor=cores['limpar']))
     print('Sorteados até agora:', end=' ')
     print(*todos_os_sorteados[0:-1], cores['roxo'] + str(globo[index]) + cores['limpar'], sep=', ')
 
@@ -51,32 +51,36 @@ while not checa_vencedor:
                 quant_vencedores += 1
                 vencedores.append(cartela[1:])
             elif cartela[0] == 9:
-                print('{}A cartela nº {} está próxima da vitória!{}'.format(cores['vermelho'], cartela[1], cores['limpar']))  # pode ser melhorado
+                print('{cor}A cartela nº {num} está próxima da vitória!{limpar_cor}'.format(cor=cores['vermelho'], num=cartela[1], limpar_cor=cores['limpar']))  # pode ser melhorado
 
     globo.pop(index)
     maximo -= 1
 
-    tabela_classific = selectionsort(matriz_cartelas)  # achar um jeito de chamar função do outro arquivo .py
-    print('Classificação atual:')  # modificar para não printar como lista
+    tabela_classific = selectionsort(matriz_cartelas)
+    print('\nClassificação atual:')
     pos = 1
     for cartela_clas in tabela_classific:
-        pos_str = cores['amarelo'] + str(pos) + ')' + cores['limpar']
-        pontuacao_cartela = cores['azul'] + str(cartela_clas[0]) + 'pts' + cores['limpar']
-        id_cartela = 'Cartela{' + str(cartela_clas[1]) + '}:'
-        print('{}   {}  {} {}'.format(pos_str, pontuacao_cartela, id_cartela, cartela_clas[2]))
+        pos_str = (cores['amarelo'] + str(pos) + 'º)' + cores['limpar']).ljust(15, ' ')
+        pontuacao_cartela = cores['azul'] + str(cartela_clas[0]).zfill(2) + 'pts' + cores['limpar']
+        id_cartela = ('Cartela{' + str(cartela_clas[1]) + '}:').ljust(13, ' ')
+        print('{} {} {: ^15} {}'.format(pos_str, pontuacao_cartela, id_cartela, cartela_clas[2]))
         pos += 1
-
-    print()
+    if quant_vencedores > 1:
+        print('\n{cor}Opa! Temos mais de um vencedores por aqui!{limpar_cor}\n'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
+    elif quant_vencedores == 1:
+        print('\n{cor}Opa! Parece que temos um vencedor!{limpar_cor}\n'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
+    else:
+        print()
 
 print('{cor}{pre_estilo}{txt}{pos_estilo}{limpar_cor}'.format(cor=cores['azul_claro'], pre_estilo='='*60, txt=' {RESULTADOS FINAIS} ', pos_estilo='='*300, limpar_cor=cores['limpar']))
-print('Quantidade de números sorteados ao todo: {}{}{}'.format(cores['amarelo'], len(todos_os_sorteados), cores['limpar']))
+print('Quantidade de números sorteados ao todo: {cor}{num}{limpar_cor}'.format(cor=cores['amarelo'], num=len(todos_os_sorteados), limpar_cor=cores['limpar']))
 print('Todos os números sorteados na partida:{cor}'.format(cor=cores['roxo']), end=' ')
 print(*todos_os_sorteados, sep=', ')
 
-if quant_vencedores > 1:
-    print('{}Tivemos {} vencedores:'.format(cores['verde'], quant_vencedores))
+if quant_vencedores == 1:
+    print('{}Houve {} vencedor na partida:'.format(cores['verde'], quant_vencedores))
 else:
-    print('{}Tivemos {} vencedor:'.format(cores['verde'], quant_vencedores))
+    print('{}Houve {} vencedores na partida:'.format(cores['verde'], quant_vencedores))
 
 for cartela_vencedora in vencedores:
     print('-> Cartela nº {}: {}{}'.format(cartela_vencedora[0], cartela_vencedora[1], cores['limpar']))
