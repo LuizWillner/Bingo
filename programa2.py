@@ -13,7 +13,7 @@ def selectionsort(lista):  # criando o metodo de ordenacao selectionsort
     return lista
 
 
-cores = {'limpar': '\033[m', 'azul': '\033[1;34m', 'azul_claro': '\033[1;36m', 'vermelho': '\033[1;31m', 'verde': '\033[0;32m', 'amarelo': '\033[1;33m', 'roxo': '\033[1;35m'}
+cores = {'limpar': '\033[m', 'azul': '\033[1;34m', 'azul_claro': '\033[1;36m', 'vermelho': '\033[1;31m', 'verde': '\033[1;32m', 'amarelo': '\033[1;33m', 'roxo': '\033[1;35m'}
 
 with open('cartelas.txt', 'r') as todas_cartelas:  # todas_cartelas = open('cartelas_doc.txt', 'r')
     lista_cartelas = todas_cartelas.readlines()
@@ -61,12 +61,20 @@ while not checa_vencedor:
     pos = 1
     for cartela_clas in tabela_classific:
         pos_str = (cores['amarelo'] + str(pos) + 'º)' + cores['limpar']).ljust(15, ' ')
-        pontuacao_cartela = cores['azul'] + str(cartela_clas[0]).zfill(2) + 'pts' + cores['limpar']
+
+        if cartela_clas[0] == 9:
+            pontuacao_cartela = cores['vermelho'] + str(cartela_clas[0]).zfill(2) + 'pts' + cores['limpar']
+        elif cartela_clas[0] == 10:
+            pontuacao_cartela = cores['verde'] + str(cartela_clas[0]).zfill(2) + 'pts' + cores['limpar']
+        else:
+            pontuacao_cartela = cores['azul'] + str(cartela_clas[0]).zfill(2) + 'pts' + cores['limpar']
+
         id_cartela = ('Cartela{' + str(cartela_clas[1]) + '}:').ljust(13, ' ')
         print('{} {} {: ^15} {}'.format(pos_str, pontuacao_cartela, id_cartela, cartela_clas[2]))
         pos += 1
+
     if quant_vencedores > 1:
-        print('\n{cor}Opa! Temos mais de um vencedores por aqui!{limpar_cor}\n'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
+        print('\n{cor}Uau! Temos mais de um vencedor por aqui!{limpar_cor}\n'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
     elif quant_vencedores == 1:
         print('\n{cor}Opa! Parece que temos um vencedor!{limpar_cor}\n'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
     else:
@@ -83,4 +91,4 @@ else:
     print('{}Houve {} vencedores na partida:'.format(cores['verde'], quant_vencedores))
 
 for cartela_vencedora in vencedores:
-    print('-> Cartela nº {}: {}{}'.format(cartela_vencedora[0], cartela_vencedora[1], cores['limpar']))
+    print('-> Cartela nº {}: {}'.format(cartela_vencedora[0], cartela_vencedora[1]))
