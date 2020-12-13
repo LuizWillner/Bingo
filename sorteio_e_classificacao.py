@@ -29,6 +29,7 @@ for p in range(tam_lista_cartelas):  # para cada cartela, faça:
     matriz_cartelas[p].append(list(map(int, lista_cartelas[p].split())))  # o terceiro elemento é a própria cartela...
     # cujos elementos internos são inteiros que representam os valores numéricos contidos na cartela
 
+matriz_cartelas_original = matriz_cartelas.copy()  # fazendo cópia da matriz_cartelas antes da ordenação ser feita para a classificação ser printada
 globo = list(range(100))  # criando o globo com as "bolinhas" do bingo (de 0 a 99) no formato de uma lista
 
 rodada = 0  # contador do número rodada
@@ -42,10 +43,11 @@ while not checa_vencedor:  # enquanto não há vencedores, faça:
     index = randint(0, maximo)  # sorteamos um index do globo e...
     todos_os_sorteados.append(globo[index])  # adicionamos o valor correspondente nos sorteados
     rodada += 1
-    print('{pre_estilo}{cor}{txt}{limpar_cor}{pos_estilo}'.format(pre_estilo='='*64, cor=cores['amarelo'], txt=' {RODADA ' + str(rodada) + '} ', limpar_cor=cores['limpar'], pos_estilo='='*304))
+    print('\n{pre_estilo}{cor}{txt}{limpar_cor}{pos_estilo}\n'.format(pre_estilo='='*64, cor=cores['amarelo'], txt=' {RODADA ' + str(rodada) + '} ', limpar_cor=cores['limpar'], pos_estilo='='*117))
     print('Número sorteado: {cor}{num}{limpar_cor}'.format(cor=cores['roxo'], num=globo[index], limpar_cor=cores['limpar']))
     print('Sorteados até agora:', end=' ')
     print(*todos_os_sorteados[0:-1], cores['roxo'] + str(globo[index]) + cores['limpar'], sep=', ')  # printando os sorteados até o momento
+    print()
 
     for cartela in matriz_cartelas:  # para cada cartela na matriz cartela, verificamos se o num sorteado está na cartela
         if globo[index] in cartela[2]:  # se estiver:
@@ -62,16 +64,17 @@ while not checa_vencedor:  # enquanto não há vencedores, faça:
     maximo -= 1  # reduzimos o index máximo do globo de sorteados
 
     if quant_vencedores > 1:  # se há algum vencedor, um alerta é emitido indicando que, em seguida, haverá a classificação final e os resultados finais
-        print('\n{cor}Uau! Temos mais de um vencedor por aqui!{limpar_cor}'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
+        print('\n{cor}Uau! Temos mais de um vencedor por aqui!{limpar_cor}\n'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
     elif quant_vencedores == 1:
-        print('\n{cor}Opa! Parece que temos um vencedor!{limpar_cor}'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
+        print('\n{cor}Opa! Parece que temos um vencedor!{limpar_cor}\n'.format(cor=cores['verde'], limpar_cor=cores['limpar']))
     else:
         print()
 
-    tabela_classific = selectionsort_reverse(matriz_cartelas)  # ordenando a matriz para printar a classificação
-    print('\nClassificação atual:')
+    matriz_cartelas = selectionsort_reverse(matriz_cartelas)  # ordenando a matriz para printar a classificação
+    print('Classificação atual:')
     pos = 1  # variável da posição da tabela (1º lugar, 2º lugar, 3º...)
-    for cartela_clas in tabela_classific:  # printando a classificação
+
+    for cartela_clas in matriz_cartelas:  # printando a classificação
         pos_str = (cores['amarelo'] + str(pos) + 'º)' + cores['limpar']).ljust(15, ' ')
 
         if cartela_clas[0] == 9:  # se a cartela tiver 9 pontos, sua pontuação é destacada em vermelho pois está próxima da vitória
@@ -82,19 +85,19 @@ while not checa_vencedor:  # enquanto não há vencedores, faça:
             pontuacao_cartela = cores['azul'] + str(cartela_clas[0]).zfill(2) + 'pts' + cores['limpar']
 
         id_cartela = ('Cartela{' + str(cartela_clas[1]) + '}:').ljust(13, ' ')
-        print('{} {} {: ^15} {}'.format(pos_str, pontuacao_cartela, id_cartela, cartela_clas[2]))
+        print('{} {} {: ^15} [{}]'.format(pos_str, pontuacao_cartela, id_cartela, lista_cartelas[cartela_clas[1] - 1].strip('\n')))
         pos += 1
 
 # printando os resultados finais
-print('\n{cor}{pre_estilo}{txt}{pos_estilo}{limpar_cor}'.format(cor=cores['azul_claro'], pre_estilo='='*60, txt=' {RESULTADOS FINAIS} ', pos_estilo='='*300, limpar_cor=cores['limpar']))
+print('\n{cor}{pre_estilo}{txt}{pos_estilo}{limpar_cor}'.format(cor=cores['azul_claro'], pre_estilo='='*60, txt=' {RESULTADOS FINAIS} ', pos_estilo='='*114, limpar_cor=cores['limpar']))
 print('Quantidade de números sorteados ao todo: {cor}{num}{limpar_cor}'.format(cor=cores['amarelo'], num=len(todos_os_sorteados), limpar_cor=cores['limpar']))
 print('Todos os números sorteados na partida:{cor}'.format(cor=cores['roxo']), end=' ')
 print(*todos_os_sorteados, sep=', ')
 
-if quant_vencedores == 1:
+if quant_vencedores == 1:  # printando quantidade de vencedores
     print('{}Houve {} vencedor na partida:'.format(cores['verde'], quant_vencedores))
 else:
     print('{}Houve {} vencedores na partida:'.format(cores['verde'], quant_vencedores))
 
-for cartela_vencedora in vencedores:
+for cartela_vencedora in vencedores:  # printando cartelas vencedoras
     print('-> Cartela nº {}: {}'.format(cartela_vencedora[0], cartela_vencedora[1]))
