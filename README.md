@@ -12,9 +12,9 @@ Uma vez definidas as cartelas, um outro programa será responsável por ler o ar
 
 ## Restrições
 
-a) Não será admitido o uso de funções de ordenação pré-implementadas.
-b) O método de ordenação implementado deve ser necessariamente "selectionsort", "shellsort" ou "quicksort".
-c) O código deverá prezar pela legibilidade; identificadores devem refletir seu significado.
-d) Este projeto poderá ser feito em grupos de até 3 (três) pessoas.
-e) Em caso de haver mais de uma pessoa na elaboração do projeto, a submissão deverá incorporar um breve relatório que descreva o grau de participação de cada integrante da equipe e quais as atividades que cada um desempenhou.
+a) Não será admitido o uso de funções de ordenação pré-implementadas.  
+b) O método de ordenação implementado deve ser necessariamente "selectionsort", "shellsort" ou "quicksort".  
+c) O código deverá prezar pela legibilidade; identificadores devem refletir seu significado.  
+d) Este projeto poderá ser feito em grupos de até 3 (três) pessoas.  
+e) Em caso de haver mais de uma pessoa na elaboração do projeto, a submissão deverá incorporar um breve relatório que descreva o grau de participação de cada integrante da equipe e quais as atividades que cada um desempenhou.  
 f) A nota de cada integrante de uma equipe não será necessariamente a mesma.
